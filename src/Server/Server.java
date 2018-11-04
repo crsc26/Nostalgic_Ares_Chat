@@ -12,6 +12,7 @@ public class Server
     static ServerSocket serverSocket;
     static ArrayList<ClientThread> clients;
 
+    // Loop to continuously accept clients
     public static void acceptClients()
     {
         clients = new ArrayList<ClientThread>();
@@ -20,9 +21,14 @@ public class Server
             try
             {
                 Socket socket = serverSocket.accept();
+                ClientThread client = new ClientThread(socket);
+                Thread thread = new Thread(client);
+                thread.start();
+                clients.add(client);
             }
             catch(IOException e)
             {
+                System.out.println("Accept failed on: " + portNo);
                 e.printStackTrace();
             }
         }
