@@ -1,19 +1,17 @@
 package Server;
 
 import Client.ClientThread;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class ServerThread implements Runnable
 {
     private Socket socket;
-    private String name;
     // To receive data from server
     private BufferedReader serverInput;
     // To write to the user
@@ -21,10 +19,9 @@ public class ServerThread implements Runnable
     // To write to the server
     private PrintWriter out;
 
-    public ServerThread(Socket socket, String name)
+    public ServerThread(Socket socket)
     {
         this.socket = socket;
-        this.name = name;
     }
 
     @Override
@@ -56,7 +53,6 @@ public class ServerThread implements Runnable
                 if(userInput.ready())
                 {
                     // Print input to the server
-                    out.println(name + " > " + userInput.readLine());
                 }
             }
         }
@@ -70,10 +66,18 @@ public class ServerThread implements Runnable
     public static void main(String[] args)
     {
         Socket socket = null;
-        System.out.println("Please input the username you want to be displayed");
-        Scanner scan = new Scanner(System.in);
-        String name = scan.nextLine();
-        scan.close();
         int portNo = 6666;
+        try {
+            socket = new Socket("localhost", portNo);
+            Thread.sleep(1000);
+            Thread server = new Thread(new ServerThread(socket));
+            server.start();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

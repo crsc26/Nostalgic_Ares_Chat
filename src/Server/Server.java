@@ -9,8 +9,9 @@ import java.util.ArrayList;
 
 public class Server
 {
+    static int portNo;
     static ServerSocket serverSocket;
-    static ArrayList<ClientThread> clients;
+    public static ArrayList<ClientThread> clients;
 
     // Loop to continuously accept clients
     public static void acceptClients()
@@ -37,12 +38,12 @@ public class Server
     // Setting up of serverSocket
     public static void main(String[] args)
     {
-        int portNo = 6666;
+        portNo = 6666;
+        serverSocket = null;
 
         try
         {
-            serverSocket = null;
-            ServerSocket serverSocket = new ServerSocket(portNo);
+            serverSocket = new ServerSocket(portNo);
             acceptClients();
         }
         catch(IOException e)

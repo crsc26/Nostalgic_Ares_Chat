@@ -16,9 +16,6 @@ public class Client
         try
         {
             socket = new Socket("localhost", portNo);
-            Thread.sleep(1000);
-            Thread server = new Thread(new ServerThread(socket));
-            server.start();
         }
         catch(UnknownHostException e)
         {
@@ -27,11 +24,6 @@ public class Client
         catch (IOException e)
         {
             System.err.println("Error in the connection!");
-            e.printStackTrace();
-        }
-        catch(InterruptedException e)
-        {
-            System.err.println("Eror in the connection!");
             e.printStackTrace();
         }
     }
